@@ -72,9 +72,9 @@ class KafkaBinderMetricsTest {
 	@Mock
 	private KafkaMessageChannelBinder binder;
 
-	private MeterRegistry meterRegistry = new SimpleMeterRegistry();
+	private final MeterRegistry meterRegistry = new SimpleMeterRegistry();
 
-	private Map<String, TopicInformation> topicsInUse = new HashMap<>();
+	private final Map<String, TopicInformation> topicsInUse = new HashMap<>();
 
 	@Mock(answer = Answers.RETURNS_DEEP_STUBS)
 	private KafkaBinderConfigurationProperties kafkaBinderConfigurationProperties;
@@ -147,11 +147,10 @@ class KafkaBinderMetricsTest {
 		org.mockito.BDDMockito.given(kafkaBinderConfigurationProperties.getMetrics().getOffsetLagMetricsInterval())
 			.willReturn(Duration.ofSeconds(1));
 		metrics.bindTo(meterRegistry);
-		Awaitility.waitAtMost(Duration.ofSeconds(5)).untilAsserted(() -> {
+		Awaitility.waitAtMost(Duration.ofSeconds(5)).untilAsserted(() ->
 			assertThat(meterRegistry.get(KafkaBinderMetrics.OFFSET_LAG_METRIC_NAME)
 				.tag("group", "group1-metrics").tag("topic", TEST_TOPIC).gauge().value())
-				.isEqualTo(500);
-		});
+				.isEqualTo(500));
 	}
 
 	@Test

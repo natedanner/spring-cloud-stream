@@ -124,7 +124,7 @@ class ConsumerProducerTransactionTests {
 		@Bean
 		public Function<String, String> listenIn() {
 			return in -> {
-				if (in.equals("two")) {
+				if ("two".equals(in)) {
 					throw new RuntimeException("fail");
 				}
 				return in.toUpperCase();

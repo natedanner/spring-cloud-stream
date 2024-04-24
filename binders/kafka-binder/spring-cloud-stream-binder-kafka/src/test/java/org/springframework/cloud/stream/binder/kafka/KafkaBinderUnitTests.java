@@ -193,11 +193,9 @@ class KafkaBinderUnitTests {
 		given(provisioningProvider.provisionConsumerDestination(anyString(), anyString(),
 				any())).willReturn(dest);
 		final AtomicInteger part = new AtomicInteger();
-		willAnswer(i -> {
-			return partitions.stream().map(p -> new PartitionInfo(topic,
+		willAnswer(i -> partitions.stream().map(p -> new PartitionInfo(topic,
 					part.getAndIncrement(), null, null, null))
-					.collect(Collectors.toList());
-		}).given(provisioningProvider).getListenedPartitions(anyString(), any(), any(),
+					.collect(Collectors.toList())).given(provisioningProvider).getListenedPartitions(anyString(), any(), any(),
 			anyInt(), anyBoolean(), anyBoolean(), anyString(), any());
 		@SuppressWarnings("unchecked")
 		final Consumer<byte[], byte[]> consumer = mock(Consumer.class);

@@ -182,8 +182,8 @@ public class FunctionConfiguration {
 				FunctionInvocationWrapper functionWrapper = functionCatalog.lookup(proxyFactory.getFunctionDefinition());
 				if (functionWrapper != null && functionWrapper.isSupplier()) {
 					// gather output content types
-					List<String> contentTypes = new ArrayList<String>();
-					if (proxyFactory.getOutputs().size() == 0) {
+					List<String> contentTypes = new ArrayList<>();
+					if (proxyFactory.getOutputs().isEmpty()) {
 						return;
 					}
 					Assert.isTrue(proxyFactory.getOutputs().size() == 1, "Supplier with multiple outputs is not supported at the moment.");
@@ -302,7 +302,7 @@ public class FunctionConfiguration {
 				&& (boolean) AnnotationUtils.getAnnotationAttributes(pollable).get("splittable");
 
 		FunctionInvocationWrapper function =
-			(supplier instanceof PartitionAwareFunctionWrapper partitionAwareFunctionWrapper)
+			supplier instanceof PartitionAwareFunctionWrapper partitionAwareFunctionWrapper
 				? (FunctionInvocationWrapper) partitionAwareFunctionWrapper.function : (FunctionInvocationWrapper) supplier;
 		boolean reactive = FunctionTypeUtils.isPublisher(function.getOutputType());
 
@@ -450,7 +450,7 @@ public class FunctionConfiguration {
 				if (!(bindableProxyFactory instanceof BindableFunctionProxyFactory)) {
 					Set<String> outputBindingNames = bindableProxyFactory.getOutputs();
 					shouldNotProcess = !CollectionUtils.isEmpty(outputBindingNames)
-							&& outputBindingNames.iterator().next().equals("applicationMetrics");
+							&& "applicationMetrics".equals(outputBindingNames.iterator().next());
 				}
 				if (StringUtils.hasText(functionDefinition) && !shouldNotProcess) {
 					FunctionInvocationWrapper function = functionCatalog.lookup(functionDefinition);
@@ -508,7 +508,7 @@ public class FunctionConfiguration {
 						Map<String, Object> headersMap = (Map<String, Object>) ReflectionUtils
 								.getField(headersField, ((Message) message).getHeaders());
 						headersMap.putIfAbsent(MessageUtils.TARGET_PROTOCOL, targetProtocol);
-						if (CloudEventMessageUtils.isCloudEvent((message))) {
+						if (CloudEventMessageUtils.isCloudEvent(message)) {
 							headersMap.putIfAbsent(MessageUtils.MESSAGE_TYPE, CloudEventMessageUtils.CLOUDEVENT_VALUE);
 						}
 						return message;
@@ -641,8 +641,8 @@ public class FunctionConfiguration {
 					? this.serviceProperties.getBindingProperties(outputChannelName).getProducer()
 							: null;
 
-			FunctionWrapper functionInvocationWrapper = (new FunctionWrapper(function, consumerProperties,
-					producerProperties, applicationContext, this.determineTargetProtocol(outputChannelName)));
+			FunctionWrapper functionInvocationWrapper = new FunctionWrapper(function, consumerProperties,
+					producerProperties, applicationContext, this.determineTargetProtocol(outputChannelName));
 
 			MessagingTemplate template = new MessagingTemplate();
 			template.setBeanFactory(applicationContext.getBeanFactory());

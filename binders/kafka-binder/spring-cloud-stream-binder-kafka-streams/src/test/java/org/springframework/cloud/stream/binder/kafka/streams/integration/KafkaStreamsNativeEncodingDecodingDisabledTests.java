@@ -136,7 +136,7 @@ public abstract class KafkaStreamsNativeEncodingDecodingDisabledTests {
 			final Header fooHeader = foo.iterator().next();
 			assertThat(fooHeader.value()).isEqualTo("bar".getBytes(StandardCharsets.UTF_8));
 
-			assertThat(cr.value().equals("Count for foobar : 1")).isTrue();
+			assertThat("Count for foobar : 1".equals(cr.value())).isTrue();
 
 			verify(conversionDelegate).serializeOnOutbound(any(KStream.class));
 			verify(conversionDelegate).deserializeOnInbound(any(Class.class),

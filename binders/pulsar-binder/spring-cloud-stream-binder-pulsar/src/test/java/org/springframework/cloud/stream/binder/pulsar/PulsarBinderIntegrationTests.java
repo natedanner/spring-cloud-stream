@@ -493,7 +493,7 @@ class PulsarBinderIntegrationTests implements PulsarTestContainerSupport {
 
 			private final Logger logger = LoggerFactory.getLogger(getClass());
 
-			private int msgCount = 0;
+			private int msgCount;
 
 			@Bean
 			public Supplier<Message<String>> springMessageSupplier() {
@@ -518,7 +518,7 @@ class PulsarBinderIntegrationTests implements PulsarTestContainerSupport {
 
 			private final Logger logger = LoggerFactory.getLogger(getClass());
 
-			private int msgCount = 0;
+			private int msgCount;
 
 			@Bean
 			public Supplier<Message<String>> springMessageSupplier() {
@@ -551,7 +551,7 @@ class PulsarBinderIntegrationTests implements PulsarTestContainerSupport {
 
 			private final Logger logger = LoggerFactory.getLogger(getClass());
 
-			private int msgCount = 0;
+			private int msgCount;
 
 			@Bean
 			public PulsarHeaderMapper extendedToStringHeaderMapper() {
@@ -831,7 +831,7 @@ class PulsarBinderIntegrationTests implements PulsarTestContainerSupport {
 
 		@Bean
 		public SchemaResolverCustomizer<DefaultSchemaResolver> customMappings() {
-			return (resolver) -> resolver.addCustomSchemaMapping(Foo.class, JSONSchema.of(Foo.class));
+			return resolver -> resolver.addCustomSchemaMapping(Foo.class, JSONSchema.of(Foo.class));
 		}
 
 	}
@@ -861,7 +861,7 @@ class PulsarBinderIntegrationTests implements PulsarTestContainerSupport {
 
 		@Bean
 		public SchemaResolverCustomizer<DefaultSchemaResolver> customMappings() {
-			return (resolver) -> resolver.addCustomSchemaMapping(User.class, Schema.AVRO(User.class));
+			return resolver -> resolver.addCustomSchemaMapping(User.class, Schema.AVRO(User.class));
 		}
 
 	}
@@ -891,7 +891,7 @@ class PulsarBinderIntegrationTests implements PulsarTestContainerSupport {
 
 		@Bean
 		public SchemaResolverCustomizer<DefaultSchemaResolver> customMappings() {
-			return (resolver) -> resolver.addCustomSchemaMapping(User.class, Schema.AVRO(User.class));
+			return resolver -> resolver.addCustomSchemaMapping(User.class, Schema.AVRO(User.class));
 		}
 
 	}

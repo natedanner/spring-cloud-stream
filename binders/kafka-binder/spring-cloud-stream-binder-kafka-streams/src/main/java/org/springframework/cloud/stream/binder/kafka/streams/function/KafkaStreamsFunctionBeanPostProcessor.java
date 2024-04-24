@@ -220,8 +220,8 @@ public class KafkaStreamsFunctionBeanPostProcessor implements InitializingBean, 
 					}
 					else {
 						Optional<Method> componentBeanMethods = Arrays.stream(methods)
-							.filter(m -> m.getName().equals("apply") && isKafkaStreamsTypeFound(m) ||
-								m.getName().equals("accept") && isKafkaStreamsTypeFound(m)).findFirst();
+							.filter(m -> "apply".equals(m.getName()) && isKafkaStreamsTypeFound(m) ||
+								"accept".equals(m.getName()) && isKafkaStreamsTypeFound(m)).findFirst();
 						if (componentBeanMethods.isPresent()) {
 							Method method = componentBeanMethods.get();
 							resolvableType = ResolvableType.forMethodParameter(method, 0);

@@ -64,9 +64,9 @@ class KafkaStreamsComponentBeansTests {
 	private static Consumer<String, String> consumer3;
 	private static Consumer<String, String> consumer4;
 
-	private final static CountDownLatch LATCH_1 = new CountDownLatch(1);
-	private final static CountDownLatch LATCH_2 = new CountDownLatch(2);
-	private final static CountDownLatch LATCH_3 = new CountDownLatch(3);
+	private static final CountDownLatch LATCH_1 = new CountDownLatch(1);
+	private static final CountDownLatch LATCH_2 = new CountDownLatch(2);
+	private static final CountDownLatch LATCH_3 = new CountDownLatch(3);
 
 	@BeforeAll
 	public static void setUp() {

@@ -55,9 +55,9 @@ class RabbitTestBinder extends
 
 	private final Set<String> prefixes = new HashSet<>();
 
-	private final Set<String> queues = new HashSet<String>();
+	private final Set<String> queues = new HashSet<>();
 
-	private final Set<String> exchanges = new HashSet<String>();
+	private final Set<String> exchanges = new HashSet<>();
 
 	private final AnnotationConfigApplicationContext applicationContext;
 

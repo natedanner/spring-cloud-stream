@@ -463,7 +463,7 @@ public class KafkaTopicProvisioner implements
 			// always consider minPartitionCount for topic creation
 			final int effectivePartitionCount = Math.max(
 					this.configurationProperties.getMinPartitionCount(), partitionCount);
-			this.metadataRetryOperations.execute((context) -> {
+			this.metadataRetryOperations.execute(context -> {
 
 				NewTopic newTopic;
 				Map<Integer, List<Integer>> replicasAssignments = topicProperties
@@ -619,7 +619,7 @@ public class KafkaTopicProvisioner implements
 			final boolean tolerateLowerPartitionsOnBroker,
 			final Callable<Collection<PartitionInfo>> callable, final String topicName) {
 		try {
-			return this.metadataRetryOperations.execute((context) -> {
+			return this.metadataRetryOperations.execute(context -> {
 				Collection<PartitionInfo> partitions = Collections.emptyList();
 
 				try {

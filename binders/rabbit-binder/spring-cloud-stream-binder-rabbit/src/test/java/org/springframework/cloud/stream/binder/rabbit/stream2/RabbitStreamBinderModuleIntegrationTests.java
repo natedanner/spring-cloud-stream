@@ -69,7 +69,7 @@ class RabbitStreamBinderModuleIntegrationTests {
 			rProps.setContainerType(ContainerType.STREAM);
 			rProps.setSuperStream(true);
 			ExtendedConsumerProperties<RabbitConsumerProperties> props =
-					new ExtendedConsumerProperties<RabbitConsumerProperties>(rProps);
+					new ExtendedConsumerProperties<>(rProps);
 			props.setAutoStartup(false);
 			props.setInstanceCount(3);
 			props.setConcurrency(3);
@@ -114,12 +114,11 @@ class RabbitStreamBinderModuleIntegrationTests {
 		ListenerContainerCustomizer<MessageListenerContainer> containerCustomizer() {
 			return (cont, dest, group) -> {
 				if (cont instanceof StreamListenerContainer container) {
-					container.setConsumerCustomizer((id, builder) -> {
+					container.setConsumerCustomizer((id, builder) ->
 						builder.consumerUpdateListener(context -> {
 							this.consumerCountLatch.countDown();
 							return OffsetSpecification.first();
-						});
-					});
+						}));
 				}
 			};
 		}

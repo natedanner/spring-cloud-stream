@@ -368,7 +368,7 @@ public abstract class AbstractKafkaStreamsBinderProcessor implements Application
 			public Object onSuccess(ConfigurationPropertyName name, Bindable<?> target,
 									BindContext context, Object result) {
 				if (!concurrencyExplicitlyProvided[0]) {
-					concurrencyExplicitlyProvided[0] = name.getLastElement(ConfigurationPropertyName.Form.UNIFORM).equals("concurrency") &&
+					concurrencyExplicitlyProvided[0] = "concurrency".equals(name.getLastElement(ConfigurationPropertyName.Form.UNIFORM)) &&
 						// name is normalized to contain only uniform elements and thus safe to call toLowerCase here.
 						ConfigurationPropertyName.of("spring.cloud.stream.bindings." + inboundName.toLowerCase() + ".consumer")
 							.isAncestorOf(name);
@@ -463,9 +463,9 @@ public abstract class AbstractKafkaStreamsBinderProcessor implements Application
 				.noDefaultBranch();
 			final KStream<?, ?>[] branch = stringKStreamMap.values().toArray(new KStream[0]);
 			// Deserialize if we have a branch from above.
-			final KStream<?, Object> deserializedKStream = !kafkaStreamsConsumerProperties.isUseConfiguredSerdeWhenRoutingEvents() ?
+			final KStream<?, Object> deserializedKStream = kafkaStreamsConsumerProperties.isUseConfiguredSerdeWhenRoutingEvents() ? (KStream<?, Object>) branch[0] :
 				branch[0].mapValues(value -> valueSerde.deserializer().deserialize(
-					topicObject.get(), headersObject.get(), ((Bytes) value).get())) : (KStream<?, Object>) branch[0];
+					topicObject.get(), headersObject.get(), ((Bytes) value).get()));
 			return getkStream(bindingProperties, deserializedKStream, nativeDecoding);
 		}
 		return getkStream(bindingProperties, stream, nativeDecoding);
@@ -499,7 +499,7 @@ public abstract class AbstractKafkaStreamsBinderProcessor implements Application
 					Processor.super.close();
 				}
 			});
-			stream = stream.mapValues((value) -> {
+			stream = stream.mapValues(value -> {
 				Object returnValue;
 				String contentType = bindingProperties.getContentType();
 				if (value != null && StringUtils.hasText(contentType)) {
@@ -607,9 +607,9 @@ public abstract class AbstractKafkaStreamsBinderProcessor implements Application
 				.noDefaultBranch();
 			final KStream<?, ?>[] branch = stringKStreamMap.values().toArray(new KStream[0]);
 			// Deserialize if we have a branch from above.
-			final KStream<?, Object> deserializedKStream = !kafkaStreamsConsumerProperties.isUseConfiguredSerdeWhenRoutingEvents() ?
+			final KStream<?, Object> deserializedKStream = kafkaStreamsConsumerProperties.isUseConfiguredSerdeWhenRoutingEvents() ? (KStream<?, Object>) branch[0] :
 				branch[0].mapValues(value -> valueSerde.deserializer().deserialize(
-					topicObject.get(), headersObject.get(), ((Bytes) value).get())) : (KStream<?, Object>) branch[0];
+					topicObject.get(), headersObject.get(), ((Bytes) value).get()));
 
 			return deserializedKStream.toTable();
 		}

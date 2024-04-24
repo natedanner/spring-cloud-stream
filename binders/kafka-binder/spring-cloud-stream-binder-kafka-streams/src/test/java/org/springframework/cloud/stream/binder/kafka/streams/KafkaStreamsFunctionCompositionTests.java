@@ -248,7 +248,7 @@ class KafkaStreamsFunctionCompositionTests {
 
 				final ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(consumer);
 				assertThat(records.iterator().hasNext()).isTrue();
-				assertThat(records.iterator().next().value().equals("foo1foo2From-anotherFooFuncFrom-yetAnotherFooFuncFrom-lastFunctionInChain")).isTrue();
+				assertThat("foo1foo2From-anotherFooFuncFrom-yetAnotherFooFuncFrom-lastFunctionInChain".equals(records.iterator().next().value())).isTrue();
 			}
 			finally {
 				pf.destroy();
@@ -293,7 +293,7 @@ class KafkaStreamsFunctionCompositionTests {
 
 				final ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(consumer);
 				assertThat(records.iterator().hasNext()).isTrue();
-				assertThat(records.iterator().next().value().equals("foo1foo2From-anotherFooFuncFrom-yetAnotherFooFuncFrom-lastFunctionInChain")).isTrue();
+				assertThat("foo1foo2From-anotherFooFuncFrom-yetAnotherFooFuncFrom-lastFunctionInChain".equals(records.iterator().next().value())).isTrue();
 			}
 			finally {
 				pf.destroy();
@@ -339,9 +339,8 @@ class KafkaStreamsFunctionCompositionTests {
 
 		@Bean
 		public Function<KStream<String, String>, KStream<String, String>> fooFunc() {
-			return input -> input.peek((s, s2) -> {
-				System.out.println("hello: " + s2);
-			});
+			return input -> input.peek((s, s2) ->
+				System.out.println("hello: " + s2));
 		}
 
 		@Bean
@@ -363,9 +362,8 @@ class KafkaStreamsFunctionCompositionTests {
 
 		@Bean
 		public Function<KStream<String, String>, KStream<String, String>> fooFunc() {
-			return input -> input.peek((s, s2) -> {
-				System.out.println("hello: " + s2);
-			});
+			return input -> input.peek((s, s2) ->
+				System.out.println("hello: " + s2));
 		}
 
 		@Bean

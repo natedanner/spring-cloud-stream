@@ -177,7 +177,7 @@ class PulsarBinderUtilsTests {
 	@Nested
 	class MergeProducerPropertiesTests {
 
-		private static final Consumer<ProducerConfigProperties> SET_NO_PROPS = (__) -> {
+		private static final Consumer<ProducerConfigProperties> SET_NO_PROPS = __ -> {
 		};
 
 		@Test
@@ -191,7 +191,7 @@ class PulsarBinderUtilsTests {
 		void basePropModifiedAtBinderLevel() {
 			var expectedProps = defaultExtPropsWith("accessMode", ProducerAccessMode.Exclusive);
 			doMergeProducerPropertiesTest(
-					(binderProps) -> binderProps.setAccessMode(ProducerAccessMode.Exclusive),
+					binderProps -> binderProps.setAccessMode(ProducerAccessMode.Exclusive),
 					SET_NO_PROPS,
 					expectedProps);
 		}
@@ -201,7 +201,7 @@ class PulsarBinderUtilsTests {
 			var expectedProps = defaultExtPropsWith("accessMode", ProducerAccessMode.Exclusive);
 			doMergeProducerPropertiesTest(
 					SET_NO_PROPS,
-					(bindingProps) -> bindingProps.setAccessMode(ProducerAccessMode.Exclusive),
+					bindingProps -> bindingProps.setAccessMode(ProducerAccessMode.Exclusive),
 					expectedProps);
 		}
 
@@ -209,8 +209,8 @@ class PulsarBinderUtilsTests {
 		void basePropModifiedAtBinderAndBindingLevel() {
 			var expectedProps = defaultExtPropsWith("accessMode", ProducerAccessMode.Exclusive);
 			doMergeProducerPropertiesTest(
-					(binderProps) -> binderProps.setAccessMode(ProducerAccessMode.ExclusiveWithFencing),
-					(bindingProps) -> bindingProps.setAccessMode(ProducerAccessMode.Exclusive),
+					binderProps -> binderProps.setAccessMode(ProducerAccessMode.ExclusiveWithFencing),
+					bindingProps -> bindingProps.setAccessMode(ProducerAccessMode.Exclusive),
 					expectedProps);
 		}
 
@@ -218,35 +218,35 @@ class PulsarBinderUtilsTests {
 		void basePropModifiedAtBinderAndBindingLevelWithDefaultValue() {
 			var expectedProps = defaultExtProps();
 			doMergeProducerPropertiesTest(
-					(binderProps) -> binderProps.setAccessMode(ProducerAccessMode.Shared),
-					(bindingProps) -> bindingProps.setAccessMode(ProducerAccessMode.Shared),
+					binderProps -> binderProps.setAccessMode(ProducerAccessMode.Shared),
+					bindingProps -> bindingProps.setAccessMode(ProducerAccessMode.Shared),
 					expectedProps);
 		}
 
 		@Test
 		void extPropModifiedAtBinderLevel() {
-			var expectedProps = defaultExtPropsWith((p) -> p.setMaxPendingMessages(1200));
+			var expectedProps = defaultExtPropsWith(p -> p.setMaxPendingMessages(1200));
 			doMergeProducerPropertiesTest(
-					(binderProps) -> binderProps.setMaxPendingMessages(1200),
+					binderProps -> binderProps.setMaxPendingMessages(1200),
 					SET_NO_PROPS,
 					expectedProps);
 		}
 
 		@Test
 		void extPropModifiedAtBindingLevel() {
-			var expectedProps = defaultExtPropsWith((p) -> p.setMaxPendingMessages(1200));
+			var expectedProps = defaultExtPropsWith(p -> p.setMaxPendingMessages(1200));
 			doMergeProducerPropertiesTest(
 					SET_NO_PROPS,
-					(binderProps) -> binderProps.setMaxPendingMessages(1200),
+					binderProps -> binderProps.setMaxPendingMessages(1200),
 					expectedProps);
 		}
 
 		@Test
 		void extPropModifiedAtBinderAndBindingLevel() {
-			var expectedProps = defaultExtPropsWith((p) -> p.setMaxPendingMessages(1200));
+			var expectedProps = defaultExtPropsWith(p -> p.setMaxPendingMessages(1200));
 			doMergeProducerPropertiesTest(
-					(binderProps) -> binderProps.setMaxPendingMessages(1100),
-					(bindingProps) -> bindingProps.setMaxPendingMessages(1200),
+					binderProps -> binderProps.setMaxPendingMessages(1100),
+					bindingProps -> bindingProps.setMaxPendingMessages(1200),
 					expectedProps);
 		}
 
@@ -254,18 +254,18 @@ class PulsarBinderUtilsTests {
 		void extPropModifiedAtBinderAndBindingLevelWithDefaultValue() {
 			var expectedProps = defaultExtProps();
 			doMergeProducerPropertiesTest(
-					(binderProps) -> binderProps.setMaxPendingMessages(1000),
-					(bindingProps) -> bindingProps.setMaxPendingMessages(1000),
+					binderProps -> binderProps.setMaxPendingMessages(1000),
+					bindingProps -> bindingProps.setMaxPendingMessages(1000),
 					expectedProps);
 		}
 
 		@Test
 		void baseAndExtPropsAreCombined() {
-			var expectedProps = defaultExtPropsWith((p) -> p.setMaxPendingMessages(1200));
+			var expectedProps = defaultExtPropsWith(p -> p.setMaxPendingMessages(1200));
 			expectedProps.put("accessMode", ProducerAccessMode.Exclusive);
 			doMergeProducerPropertiesTest(
-					(binderProps) -> binderProps.setAccessMode(ProducerAccessMode.Exclusive),
-					(bindingProps) -> bindingProps.setMaxPendingMessages(1200),
+					binderProps -> binderProps.setAccessMode(ProducerAccessMode.Exclusive),
+					bindingProps -> bindingProps.setMaxPendingMessages(1200),
 					expectedProps);
 		}
 		// @formatter:on
@@ -302,7 +302,7 @@ class PulsarBinderUtilsTests {
 	@Nested
 	class MergeConsumerPropertiesTests {
 
-		private static final Consumer<ConsumerConfigProperties> SET_NO_PROPS = (__) -> {
+		private static final Consumer<ConsumerConfigProperties> SET_NO_PROPS = __ -> {
 		};
 
 		@Test
@@ -316,7 +316,7 @@ class PulsarBinderUtilsTests {
 		void basePropModifiedAtBinderLevel() {
 			var expectedProps = defaultExtPropsWith("priorityLevel", 1000);
 			doMergeConsumerPropertiesTest(
-					(binderProps) -> binderProps.setPriorityLevel(1000),
+					binderProps -> binderProps.setPriorityLevel(1000),
 					SET_NO_PROPS,
 					expectedProps);
 		}
@@ -326,7 +326,7 @@ class PulsarBinderUtilsTests {
 			var expectedProps = defaultExtPropsWith("priorityLevel", 1000);
 			doMergeConsumerPropertiesTest(
 					SET_NO_PROPS,
-					(bindingProps) -> bindingProps.setPriorityLevel(1000),
+					bindingProps -> bindingProps.setPriorityLevel(1000),
 					expectedProps);
 		}
 
@@ -334,8 +334,8 @@ class PulsarBinderUtilsTests {
 		void basePropModifiedAtBinderAndBindingLevel() {
 			var expectedProps = defaultExtPropsWith("priorityLevel", 1000);
 			doMergeConsumerPropertiesTest(
-					(binderProps) -> binderProps.setPriorityLevel(2000),
-					(bindingProps) -> bindingProps.setPriorityLevel(1000),
+					binderProps -> binderProps.setPriorityLevel(2000),
+					bindingProps -> bindingProps.setPriorityLevel(1000),
 					expectedProps);
 		}
 
@@ -343,35 +343,35 @@ class PulsarBinderUtilsTests {
 		void basePropModifiedAtBinderAndBindingLevelWithDefaultValue() {
 			var expectedProps = defaultExtProps();
 			doMergeConsumerPropertiesTest(
-					(binderProps) -> binderProps.setPriorityLevel(0),
-					(bindingProps) -> bindingProps.setPriorityLevel(0),
+					binderProps -> binderProps.setPriorityLevel(0),
+					bindingProps -> bindingProps.setPriorityLevel(0),
 					expectedProps);
 		}
 
 		@Test
 		void extPropModifiedAtBinderLevel() {
-			var expectedProps = defaultExtPropsWith((p) -> p.setReceiverQueueSize(1200));
+			var expectedProps = defaultExtPropsWith(p -> p.setReceiverQueueSize(1200));
 			doMergeConsumerPropertiesTest(
-					(binderProps) -> binderProps.setReceiverQueueSize(1200),
+					binderProps -> binderProps.setReceiverQueueSize(1200),
 					SET_NO_PROPS,
 					expectedProps);
 		}
 
 		@Test
 		void extPropModifiedAtBindingLevel() {
-			var expectedProps = defaultExtPropsWith((p) -> p.setReceiverQueueSize(1200));
+			var expectedProps = defaultExtPropsWith(p -> p.setReceiverQueueSize(1200));
 			doMergeConsumerPropertiesTest(
 					SET_NO_PROPS,
-					(bindingProps) -> bindingProps.setReceiverQueueSize(1200),
+					bindingProps -> bindingProps.setReceiverQueueSize(1200),
 					expectedProps);
 		}
 
 		@Test
 		void extPropModifiedAtBinderAndBindingLevel() {
-			var expectedProps = defaultExtPropsWith((p) -> p.setReceiverQueueSize(1200));
+			var expectedProps = defaultExtPropsWith(p -> p.setReceiverQueueSize(1200));
 			doMergeConsumerPropertiesTest(
-					(binderProps) -> binderProps.setReceiverQueueSize(1100),
-					(bindingProps) -> bindingProps.setReceiverQueueSize(1200),
+					binderProps -> binderProps.setReceiverQueueSize(1100),
+					bindingProps -> bindingProps.setReceiverQueueSize(1200),
 					expectedProps);
 		}
 
@@ -379,18 +379,18 @@ class PulsarBinderUtilsTests {
 		void extPropModifiedAtBinderAndBindingLevelWithDefaultValue() {
 			var expectedProps = defaultExtProps();
 			doMergeConsumerPropertiesTest(
-					(binderProps) -> binderProps.setReceiverQueueSize(1000),
-					(bindingProps) -> bindingProps.setReceiverQueueSize(1000),
+					binderProps -> binderProps.setReceiverQueueSize(1000),
+					bindingProps -> bindingProps.setReceiverQueueSize(1000),
 					expectedProps);
 		}
 
 		@Test
 		void baseAndExtPropsAreCombined() {
-			var expectedProps = defaultExtPropsWith((p) -> p.setReceiverQueueSize(1200));
+			var expectedProps = defaultExtPropsWith(p -> p.setReceiverQueueSize(1200));
 			expectedProps.put("priorityLevel", 1000);
 			doMergeConsumerPropertiesTest(
-					(binderProps) -> binderProps.setPriorityLevel(1000),
-					(bindingProps) -> bindingProps.setReceiverQueueSize(1200),
+					binderProps -> binderProps.setPriorityLevel(1000),
+					bindingProps -> bindingProps.setReceiverQueueSize(1200),
 					expectedProps);
 		}
 		// @formatter:on

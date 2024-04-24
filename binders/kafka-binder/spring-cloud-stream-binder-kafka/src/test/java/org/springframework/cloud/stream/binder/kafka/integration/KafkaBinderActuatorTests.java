@@ -211,7 +211,7 @@ class KafkaBinderActuatorTests {
 		@Bean
 		public SanitizingFunction sanitizingFunction() {
 			return sd -> {
-				if (sd.getKey().equals("sasl.jaas.config")) {
+				if ("sasl.jaas.config".equals(sd.getKey())) {
 					return sd.withValue("data-scrambled!!");
 				}
 				else {

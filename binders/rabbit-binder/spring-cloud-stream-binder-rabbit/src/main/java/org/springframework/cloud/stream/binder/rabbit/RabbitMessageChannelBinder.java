@@ -324,8 +324,8 @@ public class RabbitMessageChannelBinder extends
 				"the RabbitMQ binder does not support embedded headers since RabbitMQ supports headers natively");
 		String prefix = producerProperties.getExtension().getPrefix();
 		String exchangeName = producerDestination.getName();
-		String destination = !StringUtils.hasText(prefix) ? exchangeName
-				: exchangeName.substring(prefix.length());
+		String destination = StringUtils.hasText(prefix) ? exchangeName.substring(prefix.length())
+				: exchangeName;
 		RabbitProducerProperties extendedProperties = producerProperties.getExtension();
 		final MessageHandler endpoint;
 		if (!ProducerType.AMQP.equals(producerProperties.getExtension().getProducerType())) {
@@ -514,7 +514,7 @@ public class RabbitMessageChannelBinder extends
 				consumerDestination.getName(), group);
 		// TODO until https://github.com/spring-cloud/spring-cloud-stream/issues/2902
 		getApplicationContext().getBeanProvider(ObservationRegistry.class)
-				.ifAvailable((observationRegistry) -> listenerContainer.setObservationEnabled(true));
+				.ifAvailable(observationRegistry -> listenerContainer.setObservationEnabled(true));
 
 		listenerContainer.afterPropertiesSet();
 
@@ -1059,7 +1059,7 @@ public class RabbitMessageChannelBinder extends
 		// TODO until https://github.com/spring-cloud/spring-cloud-stream/issues/2902
 		AbstractApplicationContext applicationContext = getApplicationContext();
 		applicationContext.getBeanProvider(ObservationRegistry.class)
-				.ifAvailable((observationRegistry) -> rabbitTemplate.setObservationEnabled(true));
+				.ifAvailable(observationRegistry -> rabbitTemplate.setObservationEnabled(true));
 		rabbitTemplate.setApplicationContext(applicationContext);
 		rabbitTemplate.afterPropertiesSet();
 		return rabbitTemplate;

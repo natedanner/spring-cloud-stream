@@ -255,14 +255,14 @@ public class KafkaStreamsBindableProxyFactory extends AbstractBindableProxyFacto
 	@Override
 	public Set<String> getInputs() {
 		Set<String> ins = new LinkedHashSet<>();
-		this.inputHolders.forEach((s, BoundTargetHolder) -> ins.add(s));
+		this.inputHolders.forEach((s, boundTargetHolder) -> ins.add(s));
 		return ins;
 	}
 
 	@Override
 	public Set<String> getOutputs() {
 		Set<String> outs = new LinkedHashSet<>();
-		this.outputHolders.forEach((s, BoundTargetHolder) -> outs.add(s));
+		this.outputHolders.forEach((s, boundTargetHolder) -> outs.add(s));
 		return outs;
 	}
 

@@ -97,9 +97,8 @@ public class RecordRecoverableProcessor<KIn, VIn, KOut, VOut> implements Process
 	}
 
 	protected BiConsumer<Record<KIn, VIn>, Exception> defaultProcessorRecordRecoverer() {
-		return (r, e) -> {
+		return (r, e) ->
 			RecordRecoverableProcessor.LOG.warn("Runtime Exceptions: ", e);
-		};
 	}
 
 }

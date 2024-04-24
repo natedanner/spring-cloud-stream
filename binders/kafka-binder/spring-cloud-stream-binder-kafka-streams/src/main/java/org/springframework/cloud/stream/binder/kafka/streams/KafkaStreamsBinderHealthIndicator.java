@@ -65,7 +65,7 @@ public class KafkaStreamsBinderHealthIndicator extends AbstractHealthIndicator i
 
 			Method[] declaredMethods = KAFKA_STREAMS_STATE_CLASS.getDeclaredMethods();
 			for (Method m : declaredMethods) {
-				if (m.getName().equals("isRunning")) {
+				if ("isRunning".equals(m.getName())) {
 					isKafkaStreams25 = false;
 					methodForIsRunning = m;
 				}

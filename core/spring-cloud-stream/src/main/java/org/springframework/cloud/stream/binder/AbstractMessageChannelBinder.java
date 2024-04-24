@@ -354,7 +354,7 @@ public abstract class AbstractMessageChannelBinder<C extends ConsumerProperties,
 
 
 		BindingServiceProperties bsp = this.getBindingServiceProperties();
-		Binding<MessageChannel> binding = new DefaultBinding<MessageChannel>(destination,
+		Binding<MessageChannel> binding = new DefaultBinding<>(destination,
 				outputChannel, producerMessageHandler instanceof Lifecycle producerMessageHandlerWithLifecycle
 			? producerMessageHandlerWithLifecycle : null) {
 
@@ -537,7 +537,7 @@ public abstract class AbstractMessageChannelBinder<C extends ConsumerProperties,
 			}
 
 			BindingServiceProperties bsp = this.getBindingServiceProperties();
-			Binding<MessageChannel> binding = new DefaultBinding<MessageChannel>(name,
+			Binding<MessageChannel> binding = new DefaultBinding<>(name,
 					group, inputChannel, consumerEndpoint instanceof Lifecycle consumerEndpointWithLifecycle
 							? consumerEndpointWithLifecycle : null) {
 
@@ -636,7 +636,7 @@ public abstract class AbstractMessageChannelBinder<C extends ConsumerProperties,
 		}
 
 		BindingServiceProperties bsp = this.getBindingServiceProperties();
-		Binding<PollableSource<MessageHandler>> binding = new DefaultBinding<PollableSource<MessageHandler>>(
+		Binding<PollableSource<MessageHandler>> binding = new DefaultBinding<>(
 				name, group, inboundBindTarget, resources.getSource() instanceof Lifecycle sourceWithLifecycle
 						? sourceWithLifecycle : null) {
 
@@ -1192,7 +1192,7 @@ public abstract class AbstractMessageChannelBinder<C extends ConsumerProperties,
 
 		@Override
 		protected void handleMessageInternal(Message<?> message) {
-			Message<?> messageToSend = (this.useNativeEncoding) ? message
+			Message<?> messageToSend = this.useNativeEncoding ? message
 					: serializeAndEmbedHeadersIfApplicable(message);
 			this.delegate.handleMessage(messageToSend);
 		}

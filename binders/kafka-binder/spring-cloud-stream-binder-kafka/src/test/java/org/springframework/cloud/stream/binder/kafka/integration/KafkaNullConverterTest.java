@@ -102,7 +102,7 @@ class KafkaNullConverterTest {
 			return in -> {
 				Object v = in.getPayload();
 				String className = v.getClass().getName();
-				if (className.equals("org.springframework.kafka.support.KafkaNull")) {
+				if ("org.springframework.kafka.support.KafkaNull".equals(className)) {
 					this.inputPayload = null;
 				}
 				countDownLatchInput.countDown();

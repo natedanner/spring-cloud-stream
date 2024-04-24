@@ -1235,9 +1235,8 @@ class ImplicitFunctionBindingTests {
 
 		@Bean
 		public Supplier<Flux<Message<String>>> supplier() {
-			return () -> sink.asFlux().doOnNext(v -> {
-				System.out.println("Hello " + v);
-			});
+			return () -> sink.asFlux().doOnNext(v ->
+				System.out.println("Hello " + v));
 		}
 
 		@Bean
@@ -1267,9 +1266,7 @@ class ImplicitFunctionBindingTests {
 
 		@Bean
 		public Function<Flux<String>, Flux<Message<String>>> addHeaders() {
-			return flux -> flux.map(value -> {
-				return MessageBuilder.withPayload(value).setHeader("foo", "bar").build();
-			});
+			return flux -> flux.map(value -> MessageBuilder.withPayload(value).setHeader("foo", "bar").build());
 		}
 
 		@Bean
@@ -1280,9 +1277,8 @@ class ImplicitFunctionBindingTests {
 
 		@Bean
 		public Consumer<String> cons() {
-			return x -> {
+			return x ->
 				System.out.println("Consumer");
-			};
 		}
 	}
 
@@ -1296,30 +1292,24 @@ class ImplicitFunctionBindingTests {
 
 		@Bean
 		public Function<Object, String> imperative() {
-			return x -> {
-				return x.getClass().getSimpleName();
-			};
+			return x -> x.getClass().getSimpleName();
 		}
 
 		@Bean
 		public Function<Flux<Object>, Flux<String>> reactive() {
-			return flux -> flux.map(x -> {
-				return x.getClass().getSimpleName();
-			});
+			return flux -> flux.map(x -> x.getClass().getSimpleName());
 		}
 
 		@Bean
 		public Consumer<Flux<Message<?>>> reactiveConsumer(MessageChannel testChannel) {
-			return flux -> flux.subscribe(v -> {
-				testChannel.send(new GenericMessage<String>(((Message<?>) v).getPayload().getClass().getName()));
-			});
+			return flux -> flux.subscribe(v ->
+				testChannel.send(new GenericMessage<String>(((Message<?>) v).getPayload().getClass().getName())));
 		}
 
 		@Bean
 		public Function<Flux<Message<?>>, Mono<Void>> reactiveFunctionConsumer(MessageChannel testChannel) {
-			return flux -> flux.doOnNext(x -> {
-				testChannel.send(new GenericMessage<String>(((Message<?>) x).getPayload().getClass().getName()));
-			}).then();
+			return flux -> flux.doOnNext(x ->
+				testChannel.send(new GenericMessage<String>(((Message<?>) x).getPayload().getClass().getName()))).then();
 		}
 	}
 
@@ -1408,7 +1398,7 @@ class ImplicitFunctionBindingTests {
 		public Function<Flux<String>, Flux<String>> echo() {
 			return flux -> flux.map(value -> {
 				System.out.println("echo value reqctive " + value);
-				if (value.equals("error")) {
+				if ("error".equals(value)) {
 					throw new RuntimeException("intentional");
 				}
 				return value;
@@ -1445,9 +1435,7 @@ class ImplicitFunctionBindingTests {
 	public static class SendToDestinationConfiguration {
 		@Bean
 		public Function<Flux<String>, Flux<Message<String>>> echo() {
-			return flux -> flux.map(v -> {
-				return MessageBuilder.withPayload(v).setHeader("spring.cloud.stream.sendto.destination", v).build();
-			});
+			return flux -> flux.map(v -> MessageBuilder.withPayload(v).setHeader("spring.cloud.stream.sendto.destination", v).build());
 		}
 	}
 
@@ -1508,7 +1496,7 @@ class ImplicitFunctionBindingTests {
 
 		@Bean
 		public Supplier<Long> supplier() {
-			return () -> System.currentTimeMillis();
+			return System::currentTimeMillis;
 		}
 
 		@Bean
@@ -1537,9 +1525,7 @@ class ImplicitFunctionBindingTests {
 
 		@Bean
 		public Function<Message<List<Map<String, String>>>, Message<List<Map<String, String>>>> funcB() {
-			return v -> {
-				return v;
-			};
+			return v -> v;
 		}
 	}
 
@@ -1680,9 +1666,7 @@ class ImplicitFunctionBindingTests {
 
 		@Bean
 		public Consumer<String> consumerMultiple() {
-			return value -> {
-				System.out.println(value);
-			};
+			return System.out::println;
 		}
 	}
 

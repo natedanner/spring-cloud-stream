@@ -168,8 +168,8 @@ public class RabbitExchangeQueueProvisioner
 										producerProperties.getExtension(), false));
 						declareQueue(queue.getName(), queue);
 						String prefix = producerProperties.getExtension().getPrefix();
-						String destination = !StringUtils.hasText(prefix) ? exchangeName
-								: exchangeName.substring(prefix.length());
+						String destination = StringUtils.hasText(prefix) ? exchangeName.substring(prefix.length())
+								: exchangeName;
 						String[] routingKeys = bindingRoutingKeys(producerProperties.getExtension());
 						if (ObjectUtils.isEmpty(routingKeys)) {
 							binding = partitionedBinding(destination, exchange, queue, null,

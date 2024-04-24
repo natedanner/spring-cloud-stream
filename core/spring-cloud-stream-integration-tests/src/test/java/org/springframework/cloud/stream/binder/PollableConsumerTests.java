@@ -341,9 +341,8 @@ class PollableConsumerTests {
 		binder.bindPollableConsumer("foo", "bar", pollableSource, properties);
 		final CountDownLatch latch = new CountDownLatch(1);
 		this.context.getBean(IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME,
-			SubscribableChannel.class).subscribe(m -> {
-			latch.countDown();
-		});
+			SubscribableChannel.class).subscribe(m ->
+			latch.countDown());
 		final AtomicInteger count = new AtomicInteger();
 		assertThat(pollableSource.poll(received -> {
 			count.incrementAndGet();
@@ -390,9 +389,8 @@ class PollableConsumerTests {
 		binder.bindPollableConsumer("foo", "bar", pollableSource, properties);
 		final CountDownLatch latch = new CountDownLatch(1);
 		this.context.getBean(IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME,
-			SubscribableChannel.class).subscribe(m -> {
-			latch.countDown();
-		});
+			SubscribableChannel.class).subscribe(m ->
+			latch.countDown());
 		final AtomicInteger count = new AtomicInteger();
 		assertThat(pollableSource.poll(received -> {
 			count.incrementAndGet();
@@ -563,8 +561,7 @@ class PollableConsumerTests {
 		this.context = new SpringApplicationBuilder(
 			TestChannelBinderConfiguration.getCompleteConfiguration())
 			.web(WebApplicationType.NONE).run(args);
-		TestChannelBinder binder = this.context.getBean(TestChannelBinder.class);
-		return binder;
+		return this.context.getBean(TestChannelBinder.class);
 	}
 
 	public static class Foo {
@@ -584,7 +581,7 @@ class PollableConsumerTests {
 	public static class LifecycleMessageSource<T> implements MessageSource<T>, Lifecycle {
 		private final MessageSource<T> delegate;
 
-		private boolean running = false;
+		private boolean running;
 
 		LifecycleMessageSource(MessageSource<T> delegate) {
 			this.delegate = delegate;

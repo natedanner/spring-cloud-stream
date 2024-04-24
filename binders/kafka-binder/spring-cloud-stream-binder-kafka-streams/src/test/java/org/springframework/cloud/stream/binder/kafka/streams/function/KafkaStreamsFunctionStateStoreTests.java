@@ -142,7 +142,7 @@ class KafkaStreamsFunctionStateStoreTests {
 
 		@Bean
 		public java.util.function.Consumer<KTable<Object, String>> hello() {
-			return input -> {
+			return input ->
 				input.toStream().process(() -> new Processor<Object, String, Object, String>() {
 
 					@Override
@@ -161,7 +161,6 @@ class KafkaStreamsFunctionStateStoreTests {
 
 					}
 				}, "my-store", "other-store");
-			};
 		}
 
 		@Bean

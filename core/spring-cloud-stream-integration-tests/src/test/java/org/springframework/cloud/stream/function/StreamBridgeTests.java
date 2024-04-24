@@ -849,9 +849,8 @@ class StreamBridgeTests {
 	public static class ConsumerConfiguration {
 		@Bean
 		public Consumer<String> consumer(StreamBridge bridge, BindingServiceProperties properties) {
-			return v -> {
+			return v ->
 				bridge.send("foo", v);
-			};
 		}
 		@Bean
 		public Function<String, Message<String>> function(StreamBridge bridge, BindingServiceProperties properties) {
@@ -925,9 +924,8 @@ class StreamBridgeTests {
 		@Bean
 		public NewDestinationBindingCallback<?> callback(AtomicBoolean callbackVerifier) {
 
-			return (name, channel, props, extended) -> {
+			return (name, channel, props, extended) ->
 				callbackVerifier.set(true);
-			};
 		}
 	}
 
@@ -964,7 +962,7 @@ class StreamBridgeTests {
 		@Bean
 		public IntegrationFlow someFlow(MessageHandler sendMessage, MessageChannel inputChannel) {
 			return IntegrationFlow.from(inputChannel)
-				.log(LoggingHandler.Level.INFO, (m) -> {
+				.log(LoggingHandler.Level.INFO, m -> {
 					LATCH1.countDown();
 					return "Going through the first flow: " + m.getPayload();
 				})
@@ -975,7 +973,7 @@ class StreamBridgeTests {
 		@Bean
 		public IntegrationFlow someOtherFlow(MessageHandler sendMessage) {
 			return IntegrationFlow.from(otherInputChannel())
-				.log(LoggingHandler.Level.INFO, (m) -> {
+				.log(LoggingHandler.Level.INFO, m -> {
 					LATCH2.countDown();
 					return "Going through the second flow: " + m.getPayload();
 				})
@@ -996,9 +994,8 @@ class StreamBridgeTests {
 
 		@Bean
 		public MessageHandler sendMessage(StreamBridge streamBridge) {
-			return message -> {
+			return message ->
 				streamBridge.send("outgoing-out-0", message);
-			};
 		}
 	}
 

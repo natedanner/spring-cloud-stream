@@ -128,8 +128,8 @@ class KafkaStreamsBinderHealthIndicatorTests {
 			String threadState = (String) details.get("threadState");
 			return threadState != null
 					&& (threadState.equalsIgnoreCase(KafkaStreams.State.REBALANCING.name())
-							|| threadState.equalsIgnoreCase("PARTITIONS_REVOKED")
-							|| threadState.equalsIgnoreCase("PARTITIONS_ASSIGNED")
+							|| "PARTITIONS_REVOKED".equalsIgnoreCase(threadState)
+							|| "PARTITIONS_ASSIGNED".equalsIgnoreCase(threadState)
 							|| threadState.equalsIgnoreCase(
 									KafkaStreams.State.PENDING_SHUTDOWN.name()));
 		}
@@ -274,10 +274,9 @@ class KafkaStreamsBinderHealthIndicatorTests {
 
 		@Bean
 		public StreamsBuilderFactoryBeanConfigurer customizer() {
-			return factoryBean -> {
+			return factoryBean ->
 				factoryBean.setKafkaStreamsCustomizer(kafkaStreams -> kafkaStreams.setUncaughtExceptionHandler(exception ->
 						StreamsUncaughtExceptionHandler.StreamThreadExceptionResponse.SHUTDOWN_CLIENT));
-			};
 		}
 
 	}
